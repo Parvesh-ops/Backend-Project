@@ -4,7 +4,7 @@
 -Get all contact
 -  GET /api/contacts
 */
-export const getContact = (req,res) =>{
+export const getContacts = (req,res) =>{
     res.json({ message: 'Get all contact'});
 };
 
@@ -17,13 +17,22 @@ export const getContact = (req,res) =>{
     res.json({message: 'Created a new contact' })
  }
 
+ 
+ /**
+ * get contact
+ *   GET /api/contacts/:id
+ */
+export const getContact = (req,res)=>{
+res.json({message :`get contact for ${req.params.id}`})
+}
+
 
  /**
  * Update contact
  *   PUT /api/contacts/:id
  */
  export const updateContact = (req,res)=>{
-    res.json({message: 'Update a contact'})
+    res.json({message: `Update a contact for ${req.params.id}`})
  }
 
 
