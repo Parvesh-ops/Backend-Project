@@ -1,5 +1,6 @@
 import express from 'express';
 import dotenv from 'dotenv';
+import contactRoute from './src/routes/contact.routes.js'
 import { connectDB } from './src/config/database.config.js';
 
 dotenv.config();
@@ -15,6 +16,9 @@ app.get('/',(req,res)=>{
         message:'Hello from backend Team!!'
     });
 });
+
+//API routes
+app.use('/api',contactRoute)
 
 
 
