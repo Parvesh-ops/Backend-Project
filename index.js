@@ -11,7 +11,7 @@ const app = express();
 const PORT = process.env.PORT
 
 //middleware
-app.use(express.json())  // Parse JSON bodies
+app.use(express.json())  // Parse JSON bodies for req.body in controllers
 
 
 //Test route

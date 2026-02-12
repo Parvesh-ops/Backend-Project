@@ -1,4 +1,5 @@
 import asyncHandler from 'express-async-handler'
+import Contact from '../models/contact.model.js';
 
 /*
 -Get all contact
@@ -16,14 +17,20 @@ export const getContacts = asyncHandler(async (req, res) => {
 export const creatContact = asyncHandler(async (req, res) => {
     // console.log("the request body is:", req.body);
 
-    const { name, email, phone } = req.body
+    const { name, email, phone } = req.body   //-> middelware use in index.js
 
     if (!name || !email || !phone) {
         res.status(400);
         throw new Error("All fields are required");
     }
 
-    res.json({ message: 'Created a new contact' })
+    const contact = await Contact.create({   //-> Contact is from model
+        name,
+        email,
+        phone
+    })
+
+    res.status(201).json(contact);
 });
 
 
