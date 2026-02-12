@@ -1,0 +1,4 @@
+# Adding .gitignore by youself and put the things you dont want to put in github
+
+/node_modules
+.env
