@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import contactRoute from './src/routes/contact.routes.js'
 import { connectDB } from './src/config/database.config.js';
 import { errorHandler } from './src/middleware/errorHandler.middelware.js';
+import userRoute from './src/routes/user.routes.js'
 
 dotenv.config();
 connectDB();
@@ -22,7 +23,8 @@ app.get('/',(req,res)=>{
 });
 
 //API routes
-app.use('/api',contactRoute)
+app.use('/api',contactRoute);
+app.use('/api/user',userRoute);
 
 
 //Global ErrorHandler Middelware
