@@ -1,6 +1,7 @@
 import asyncHandler from 'express-async-handler'
 import User from '../models/user.model.js';
 import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken'
 
 /*Register user
 *  POST /api/user/register
@@ -22,7 +23,7 @@ export const registerUser = asyncHandler(async (req, res) => {
     };
 
     //hashed password
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword = await bcrypt.hash(password, 10);   //-> password come form destructure req.body, 10-> salt
     console.log("Hassedpassword:", hashedPassword);
 
     //create newUser
@@ -46,6 +47,28 @@ export const registerUser = asyncHandler(async (req, res) => {
 *  POST /api/user/login
 */
 export const loginUser = asyncHandler(async (req, res) => {
+    const { email, password } = req.body;
+
+    //validate input
+    if (!email || !password) {
+        res.status(401);
+        throw new Error("All fileds are required");
+    };
+
+    //find user
+    const existedUser = await User.findOne({ email });
+    if (!existedUser) {
+        res.status(401)
+        throw new Error("Invalid email or password");
+    };
+
+    //compare password of register user and login user password
+    const comparePassword = await bcrypt.compare(password, existedUser.password)
+    if (!comparePassword) {
+        res.status(401);
+        throw new Error("Invalid email or password");
+    }
+
     res.status(201).json({ message: 'login user' })
 });
 
