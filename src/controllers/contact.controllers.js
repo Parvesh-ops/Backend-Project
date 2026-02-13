@@ -39,16 +39,39 @@ export const creatContact = asyncHandler(async (req, res) => {
 *   GET /api/contacts/:id
 */
 export const getContact = asyncHandler(async (req, res) => {
-    res.json({ message: `get contact for ${req.params.id}` })
+
+    const contact = await Contact.findById(req.params.id);
+
+    if (!contact) {
+        res.status(404);
+        throw new Error("contact not found");
+
+    }
+
+    res.status(201).json(contact);
 });
 
 
 /**
 * Update contact
-*   PUT /api/contacts/:id
+*   PATCH /api/contacts/:id
 */
 export const updateContact = asyncHandler(async (req, res) => {
-    res.json({ message: `Update a contact for ${req.params.id}` })
+
+    const contact = await Contact.findById(req.params.id)
+
+    if (!contact) {
+        res.status(404);
+        throw new Error("contact not found");
+    }
+
+    //updated contact
+    const updatedContact = await Contact.findByIdAndUpdate(
+        req.params.id,
+        req.body,
+        { new: true }
+    )
+    res.status(201).json(updatedContact)
 });
 
 
@@ -57,7 +80,17 @@ export const updateContact = asyncHandler(async (req, res) => {
  *   DELETE /api/contacts/:id
  */
 export const deleteContact = asyncHandler(async (req, res) => {
-    res.json({ message: ' Deteted contact' })
+
+    const contact = await Contact.findById(req.params.id);
+
+    if (!contact) {
+        res.status(404);
+        throw new Error("contact not found");
+    }
+
+    await contact.deleteOne()
+
+    res.status(201).json({message: "Contact deleted successfully"})
 });
 
 
