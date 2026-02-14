@@ -2,6 +2,7 @@ import asyncHandler from 'express-async-handler'
 import User from '../models/user.model.js';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken'
+import generateToken from '../utils/generate.token.js';
 
 /*Register user
 *  POST /api/user/register
@@ -69,9 +70,16 @@ export const loginUser = asyncHandler(async (req, res) => {
         throw new Error("Invalid email or password");
     }
 
-    res.status(201).json({ message: 'login user' })
-});
+    //generate token  -> used from utils generate.token
+    const token = generateToken(existedUser._id)
 
+    res.status(201).json({
+        _id: existedUser.id,
+        username: existedUser.username,
+        email: existedUser.email,
+        token
+     })
+});
 
 /*current user
 *  GET /api/user/current
