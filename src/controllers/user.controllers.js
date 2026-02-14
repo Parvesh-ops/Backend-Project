@@ -84,6 +84,6 @@ export const loginUser = asyncHandler(async (req, res) => {
 /*current user
 *  GET /api/user/current
 */
-export const currentUser = (req, res) => {
-    res.status(201).json({ message: 'Current user info' })
-}
+export const currentUser = asyncHandler(async(req, res) => {
+    res.status(201).json(req.user)
+})
